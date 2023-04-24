@@ -24,14 +24,17 @@ class main:
             database=os.environ.get('SQLDATABASE')
         );
 
-        print(db)
 
         cursor = db.cursor()
-        query = "SELECT * FROM transporters;"
+        while(True):
+            if adminStatus: self.promptAdmin() 
+            else: self.promptBrowse()
+            
+        # query = "SELECT * FROM transporters;"
 
-        cursor.execute(query)
+        # cursor.execute(query)
 
-        rows = cursor.fetchall()
+        # rows = cursor.fetchall()
 
         # for row in rows:
         #     print(row)
@@ -39,6 +42,32 @@ class main:
         cursor.close()
         db.close()        
 
+
+    def promptAdmin(self):
+        choice = input('''
+            What would you like to do?\n
+            1. Browse database\n
+            2. Add to database\n
+            3. Remove from database\n
+            4. Update database\n
+            5. Exit\n
+            ''')
+        if choice == '1':
+            self.promptBrowse()
+        elif choice == '2':
+            print("TODO add")
+        elif choice == '3':
+            print("TODO remove")
+        elif choice == '4':
+            print("TODO update")
+        elif choice == '5':
+            exit()
+        else:
+            print('Invalid choice. Please try again.')
+            self.promptAdmin()
+
+    def promptBrowse(self):
+        print("TODO browse")
 
 if __name__ == "__main__":
     main()
