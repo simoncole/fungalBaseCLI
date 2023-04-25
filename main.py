@@ -2,6 +2,7 @@ import os
 import argparse
 from dotenv import load_dotenv
 import mysql.connector as sql
+from Browse import Browse
 
 class main:
     def __init__(self):
@@ -17,7 +18,7 @@ class main:
         if args.password == os.environ.get('ADMINPASSWORD'): adminStatus = 1
 
         # Connects to the database
-        db = sql.connect(
+        self.db = sql.connect(
             host=os.environ.get('SQLHOST'),
             user=os.environ.get('SQLUSER'),
             password=os.environ.get('SQLPASSWORD'),
@@ -25,7 +26,7 @@ class main:
         );
 
 
-        cursor = db.cursor()
+        cursor = self.db.cursor()
         while(True):
             if adminStatus: self.promptAdmin() 
             else: self.promptBrowse()
@@ -67,7 +68,8 @@ class main:
             self.promptAdmin()
 
     def promptBrowse(self):
-        print("TODO browse")
+        browse = Browse(self.db)
+        browse.promptBrowse()
 
 if __name__ == "__main__":
     main()
