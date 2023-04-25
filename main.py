@@ -3,6 +3,7 @@ import argparse
 from dotenv import load_dotenv
 import mysql.connector as sql
 from Browse import Browse
+from AddUpdateRemove import AddUpdateRemove
 
 class main:
     def __init__(self):
@@ -53,10 +54,11 @@ class main:
             4. Update database\n
             5. Exit\n
             ''')
+        addUpdateRemover = AddUpdateRemove(self.db)
         if choice == '1':
             self.promptBrowse()
         elif choice == '2':
-            print("TODO add")
+            addUpdateRemover.addSpecies()
         elif choice == '3':
             print("TODO remove")
         elif choice == '4':
