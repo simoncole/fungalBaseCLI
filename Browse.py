@@ -11,6 +11,7 @@ class Browse:
         if self.checkExists(species) == False:
             print('Invalid species. Please try again.')
             self.promptBrowse()
+            return
         infoChoice = input('''
         1. Get fungal traits
         2. Get genomic information
@@ -98,8 +99,9 @@ class Browse:
             'binomial': species
         }
         self.cursor.execute('''
-            SELECT * FROM Species WHERE species = %(binomial)s
+            SELECT * FROM Species WHERE species = %(binomial)s;
             ''', checkSpecies)
+        self.cursor.fetchall()
         if self.cursor.rowcount == -1:
             return False
         else:

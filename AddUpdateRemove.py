@@ -173,6 +173,7 @@ class AddUpdateRemove:
         self.cursor.execute('''
             SELECT * FROM Species WHERE species = %(binomial)s
             ''', checkSpecies)
+        self.cursor.fetchall()
         if self.cursor.rowcount == -1:
             return False
         else:
