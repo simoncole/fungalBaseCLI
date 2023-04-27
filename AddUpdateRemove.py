@@ -3,12 +3,13 @@ class AddUpdateRemove:
         self.db = db
         self.cursor = db.cursor()
 
+    # Add a new species to the database
     def addSpecies(self):
         #add new species to the tax tables
         newSpecies = input('''
             Enter the Binomial nomenclature of the new organism you would like to add:
             ''')
-        if self.checkExists(newSpecies) == True:
+        if self.checkExists(newSpecies) == False:
             print('Species already exists in the database. Please try again.')
             self.addSpecies()
         
@@ -27,6 +28,7 @@ class AddUpdateRemove:
         if traitsChoice == 'y':
             self.addFungalTraits(newSpecies)
     
+    # Adds traits to the new species
     def addFungalTraits(self, newSpecies):
         #add the new specie's fungal traits
         self.cursor.execute('''
@@ -53,6 +55,7 @@ class AddUpdateRemove:
         self.cursor.execute(insertString, traitsDict)
         self.db.commit()
 
+    #Gives update capabilities to the user
     def update(self):
         #ability to change the taxonomy and fungal traits of an existing species
         species = input('''
@@ -73,7 +76,7 @@ class AddUpdateRemove:
             print('Invalid input. Please enter a number between 1 and 2.')
             self.update()
         
-    
+    # Helper function to update that updates the taxonomy
     def updateTaxonomy(self, species):
         #update the binomial nomeclature of an existing species
         self.cursor.execute('''
@@ -108,6 +111,7 @@ class AddUpdateRemove:
         else:
             return
     
+    # Helper function to update that updates the fungal traits
     def updateFungalTraits(self, species):
         #update the fungal traits of an existing species
         self.cursor.execute('''
@@ -141,6 +145,8 @@ class AddUpdateRemove:
             self.cursor.execute(updateString, updateDict)
             self.db.commit()
             self.updateFungalTraits(species)
+
+    #Gives remove capabilities to the user
     def remove(self):
         species = input('''
             Enter the binomial nomenclature of the species you would like to remove. 
@@ -166,6 +172,7 @@ class AddUpdateRemove:
                 ''')
             return
 
+    # Helper function to check if a species exists in the database
     def checkExists(self, species):
         checkSpecies = {
             'binomial': species

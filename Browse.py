@@ -4,10 +4,13 @@ class Browse:
         self.cursor = db.cursor()
         self.promptBrowse()
 
+    #prompts the user for browsing options
     def promptBrowse(self):
         species = input('''
-            Enter the binomial nomenclature of the species you would like to browse.
+            Enter the binomial nomenclature of the species you would like to browse (x to exit).
             ''')
+        if species == 'x':
+            return
         if self.checkExists(species) == False:
             print('Invalid species. Please try again.')
             self.promptBrowse()
@@ -26,11 +29,11 @@ class Browse:
         elif infoChoice == '3':
             transporterInfo = self.getTransporterInfo(species)
             self.printTransporterInfo(transporterInfo)
-
         else:
             print('Invalid input. Please enter a number between 1 and 3.')
             self.promptBrowse()
 
+    #gets the fungal traits of a species
     def getFungalTraits(self, species):
         print(species)
         paramDict = {
@@ -47,6 +50,7 @@ class Browse:
             if(result[0][key] != ''): fungalTraits[key] = result[0][key]
         return fungalTraits
     
+    #gets the genomic information of a species
     def getGenomicInfo(self, species):
         paramDict = {
             'binomial': species
@@ -61,6 +65,7 @@ class Browse:
             if(result[0][key] != ''): genomicInfo[key] = result[0][key]
         return genomicInfo
 
+    #gets the transporter genes and their qunatities of a species
     def getTransporterInfo(self, species):
         paramDict = {
             'binomial': species
@@ -77,11 +82,13 @@ class Browse:
         transporterInfo = self.cursor.fetchall()
         return transporterInfo
     
+    #prints the data in a readable format
     def printData(self, data):
         for key in data:
             print(key + ': ' + data[key])
         self.promptBrowse()
 
+    #prints the transporter info in a readable format
     def printTransporterInfo(self, data):
         choice = input("""
         How many transporters would you like to see (type all or the number)? 
@@ -94,6 +101,7 @@ class Browse:
                 print('Transporter ID: ' + str(data[i][0]) + ', Quantity: ' + str(data[i][1]))
         self.promptBrowse()
     
+    #checks if a species exists in the database
     def checkExists(self, species):
         checkSpecies = {
             'binomial': species

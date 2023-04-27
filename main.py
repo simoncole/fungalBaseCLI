@@ -30,21 +30,11 @@ class main:
         cursor = self.db.cursor()
         while(True):
             if adminStatus: self.promptAdmin() 
-            else: self.promptBrowse()
+            else: 
+                Browse(self.db)
+                exit()
             
-        # query = "SELECT * FROM transporters;"
-
-        # cursor.execute(query)
-
-        # rows = cursor.fetchall()
-
-        # for row in rows:
-        #     print(row)
-
-        cursor.close()
-        db.close()        
-
-
+    # Prompts the admin to browse, add, remove, or update the database
     def promptAdmin(self):
         choice = input('''
             What would you like to do?\n
@@ -56,7 +46,7 @@ class main:
             ''')
         addUpdateRemover = AddUpdateRemove(self.db)
         if choice == '1':
-            self.promptBrowse()
+            Browse(self.db)
         elif choice == '2':
             addUpdateRemover.addSpecies()
         elif choice == '3':
@@ -68,10 +58,6 @@ class main:
         else:
             print('Invalid choice. Please try again.')
             self.promptAdmin()
-
-    def promptBrowse(self):
-        browse = Browse(self.db)
-        browse.promptBrowse()
 
 if __name__ == "__main__":
     main()
