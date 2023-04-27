@@ -8,6 +8,10 @@ class AddUpdateRemove:
         newSpecies = input('''
             Enter the Binomial nomenclature of the new organism you would like to add:
             ''')
+        if self.checkExists(newSpecies) == True:
+            print('Species already exists in the database. Please try again.')
+            self.addSpecies()
+        
         paramDict = {
             'binomial': newSpecies,
             'genus': newSpecies.split(' ')[0]
@@ -54,6 +58,9 @@ class AddUpdateRemove:
         species = input('''
             Enter the binomial nomenclature of the species you would like to update.
             ''')
+        if self.checkExists(species) == False:
+            print('Invalid species. Please try again.')
+            self.update()
         updateChoice = input('''
             1. Update taxonomy
             2. Update fungal traits
@@ -78,7 +85,6 @@ class AddUpdateRemove:
         speciesDict = {}
         for key in resultKeys:
             if(result[0][key] != ''): speciesDict[key] = result[0][key]
-        print(speciesDict)
 
         newSpecies = input('''
             Enter the new binomial nomenclature for this species:
@@ -159,3 +165,15 @@ class AddUpdateRemove:
                 Species not found.
                 ''')
             return
+
+    def checkExists(self, species):
+        checkSpecies = {
+            'binomial': species
+        }
+        self.cursor.execute('''
+            SELECT * FROM Species WHERE species = %(binomial)s
+            ''', checkSpecies)
+        if self.cursor.rowcount == -1:
+            return False
+        else:
+            return True

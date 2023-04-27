@@ -8,6 +8,9 @@ class Browse:
         species = input('''
             Enter the binomial nomenclature of the species you would like to browse.
             ''')
+        if self.checkExists(species) == False:
+            print('Invalid species. Please try again.')
+            self.promptBrowse()
         infoChoice = input('''
         1. Get fungal traits
         2. Get genomic information
@@ -89,3 +92,15 @@ class Browse:
             for i in range(0, int(choice)):
                 print('Transporter ID: ' + str(data[i][0]) + ', Quantity: ' + str(data[i][1]))
         self.promptBrowse()
+    
+    def checkExists(self, species):
+        checkSpecies = {
+            'binomial': species
+        }
+        self.cursor.execute('''
+            SELECT * FROM Species WHERE species = %(binomial)s
+            ''', checkSpecies)
+        if self.cursor.rowcount == -1:
+            return False
+        else:
+            return True
