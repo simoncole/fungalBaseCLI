@@ -60,9 +60,9 @@ class main:
         elif choice == '2':
             addUpdateRemover.addSpecies()
         elif choice == '3':
-            print("TODO remove")
+            addUpdateRemover.remove()
         elif choice == '4':
-            print("TODO update")
+            addUpdateRemover.update()
         elif choice == '5':
             exit()
         else:
